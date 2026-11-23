@@ -5,7 +5,7 @@
 import { ConvexError, v } from "convex/values";
 import { internal } from "./_generated/api";
 import { action, internalAction, internalMutation, internalQuery, mutation } from "./_generated/server";
-import { assertKey } from "./lib";
+import { assertKey, deleteFile } from "./lib";
 
 const RETAIN_DAYS = 30;
 const MIN_SECONDS = 15;
@@ -34,8 +34,8 @@ export const attach = mutation({
     assertKey(args.key);
     const call = await ctx.db.get(args.callId);
     const discard = async () => {
-      await ctx.storage.delete(args.mine);
-      await ctx.storage.delete(args.theirs);
+      await deleteFile(ctx.storage, args.mine);
+      await deleteFile(ctx.storage, args.theirs);
     };
     if (!call) {
       await discard(); // the call was undone before the upload finished
@@ -160,7 +160,7 @@ export const testRecording = action({
       const [mine, theirs] = await Promise.all([check(args.mine, "me"), check(args.theirs, "them")]);
       return { keys, mine, theirs };
     } finally {
-      await Promise.all([ctx.storage.delete(args.mine), ctx.storage.delete(args.theirs)]);
+      await Promise.all([deleteFile(ctx.storage, args.mine), deleteFile(ctx.storage, args.theirs)]);
     }
   },
 });
@@ -329,8 +329,8 @@ export const cleanup = internalMutation({
       .withIndex("by_createdAt", (q) => q.lt("createdAt", cutoff))
       .take(100);
     for (const r of old) {
-      await ctx.storage.delete(r.mine);
-      await ctx.storage.delete(r.theirs);
+      await deleteFile(ctx.storage, r.mine);
+      await deleteFile(ctx.storage, r.theirs);
       await ctx.db.delete(r._id);
     }
   },

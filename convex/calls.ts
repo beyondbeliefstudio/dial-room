@@ -2,7 +2,7 @@ import { mutation, query } from "./_generated/server";
 import { ConvexError, v } from "convex/values";
 import type { Doc } from "./_generated/dataModel";
 import { outcome } from "./schema";
-import { assertKey, DAY_MS, easternDay, MAX_ATTEMPTS } from "./lib";
+import { assertKey, DAY_MS, easternDay, MAX_ATTEMPTS, deleteFile } from "./lib";
 
 type Outcome = Doc<"calls">["outcome"];
 
@@ -123,8 +123,8 @@ export const undo = mutation({
     }
     await ctx.db.patch(call.prospectId, { ...call.prev, updatedAt: Date.now() });
     for (const r of await ctx.db.query("recordings").withIndex("by_callId", (q) => q.eq("callId", call._id)).collect()) {
-      await ctx.storage.delete(r.mine);
-      await ctx.storage.delete(r.theirs);
+      await deleteFile(ctx.storage, r.mine);
+      await deleteFile(ctx.storage, r.theirs);
       await ctx.db.delete(r._id);
     }
     await ctx.db.delete(call._id);

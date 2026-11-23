@@ -1,4 +1,5 @@
 import { ConvexError } from "convex/values";
+import type { Id } from "./_generated/dataModel";
 
 // Single-user app: every function takes the access code and checks it here.
 // Set it once per deployment with: npx convex env set APP_PASSCODE <your code>
@@ -36,4 +37,13 @@ export function normalizeKey(business: string, phone: string): string {
     .trim();
   const digits = phone.replace(/\D/g, "").slice(-10);
   return `${name}|${digits}`;
+}
+
+/** Delete a stored file, ignoring one that's already gone (for example after copying data between deployments). */
+export async function deleteFile(storage: { delete: (id: Id<"_storage">) => Promise<void> }, id: Id<"_storage">) {
+  try {
+    await storage.delete(id);
+  } catch {
+    // already deleted or never copied over
+  }
 }
