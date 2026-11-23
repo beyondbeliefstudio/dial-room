@@ -1,0 +1,16 @@
+# Netlify builds from the GitHub repo. CONVEX_DEPLOY_KEY (a production deploy key from the
+# Convex dashboard) must be set in Netlify's environment variables. `convex deploy` pushes the
+# backend functions, then runs the Vite build with VITE_CONVEX_URL pointed at production.
+[build]
+  command = "npx convex deploy --cmd 'npm run build'"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "no-referrer"
