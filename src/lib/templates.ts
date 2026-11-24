@@ -112,7 +112,7 @@ function verticalLines(industry: string) {
       outcomes: "better photos and amenity pages, showing up in travel searches, and a clear path to book",
     };
   return {
-    priority: `getting more calls from Google and looking like the go-to ${tradeOne(industry)} in town`,
+    priority: `standing out as the most trusted ${tradeOne(industry)} in town`,
     outcomes: "showing up in local search, getting more quote requests, and making it easy to call from a phone",
   };
 }

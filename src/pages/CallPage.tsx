@@ -15,6 +15,7 @@ import {
   type ScriptId,
 } from "../lib/script";
 import { useLibrary } from "../library";
+import type { ScriptDef } from "../lib/scriptDefaults";
 import ScriptView, { Segs } from "../components/ScriptView";
 import CallbackModal from "../components/CallbackModal";
 import BookModal, { type MeetingDraft } from "../components/BookModal";
@@ -27,7 +28,7 @@ import * as recorder from "../lib/recorder";
 import { OUTCOME_LABEL, STATUS_LABEL } from "../lib/labels";
 
 type Outcome = Doc<"calls">["outcome"];
-type Panel = "script" | "frontdesk" | "voicemail" | "objections";
+type Panel = "script" | "frontdesk" | "voicemail";
 
 type Filters = { county: string; industry: string; includeLower: boolean; conceptOnly: boolean };
 const FILTER_KEY = "dialroom.filters";
@@ -113,7 +114,7 @@ export default function CallPage({
   const [note, setNote] = useState("");
   const [scriptPick, setScriptPick] = useState<ScriptId | "auto">("auto");
   const [panel, setPanel] = useState<Panel>("script");
-  const [objection, setObjection] = useState(0);
+  const [openObj, setOpenObj] = useState<number | null>(null); // the rebuttal showing in place of the script
   const [modal, setModal] = useState<null | { kind: "callback"; outcome: "front_desk" | "callback" | "not_now" } | { kind: "book" }>(null);
   const [toast, setToast] = useState<null | { text: string; callId: Id<"calls"> | null; good?: boolean }>(null);
   const [burst, setBurst] = useState(0);
@@ -128,6 +129,7 @@ export default function CallPage({
       setNote("");
       setScriptPick("auto");
       setPanel("script");
+      setOpenObj(null);
     }
   }, [current?._id]);
 
@@ -141,7 +143,8 @@ export default function CallPage({
   const lib = useLibrary();
   const lines = useMemo(() => (current ? buildScript(scriptId, current, new Date(), lib) : []), [current, scriptId, lib]);
   const objs = useMemo(() => objectionList(lib), [lib]);
-  const obj = objs[Math.min(objection, objs.length - 1)];
+  const obj = openObj === null ? null : (objs[openObj] ?? null);
+  const pickObjection = useCallback((i: number) => setOpenObj((cur) => (cur === i ? null : i)), []);
 
   // Upload a call's audio for the AI review, in the background
   const uploadUrl = useMutation(api.reviews.uploadUrl);
@@ -269,19 +272,16 @@ export default function CallPage({
         s: skip,
         n: () => noteRef.current?.focus(),
         z: () => void undo(),
-        o: () => setPanel("objections"),
         g: () => {
           if (!current) return;
           recorder.startCall();
           window.open(googleVoiceUrl(current.phone), "dialroom-voice");
         },
-        "1": () => (panel === "objections" ? setObjection(0) : setScriptPick("followup")),
-        "2": () => (panel === "objections" ? setObjection(1) : setScriptPick("cold")),
-        "3": () => panel === "objections" && setObjection(2),
+        // Number keys open an objection's rebuttal from anywhere on the call screen
         ...Object.fromEntries(
-          [4, 5, 6, 7, 8, 9, 10].map((n) => [String(n % 10), () => panel === "objections" && n <= objs.length && setObjection(n - 1)]),
+          [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => [String(n % 10), () => n <= objs.length && pickObjection(n - 1)]),
         ),
-        escape: () => setPanel("script"),
+        escape: () => setOpenObj(null),
       };
       const fn = map[k];
       if (!fn || (!current && k !== "z")) return;
@@ -290,12 +290,11 @@ export default function CallPage({
         fn();
         return;
       }
-      if (k === "1" || k === "2" || k === "3") setPanel((p) => (p === "objections" ? p : "script"));
       fn();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [modal, doLog, skip, undo, current, panel, objs.length]);
+  }, [modal, doLog, skip, undo, current, objs.length, pickObjection]);
 
   const loading = focusId ? pinnedDoc === undefined : queue === undefined;
   const listLeft = callList ? callList.ids.length - callList.done.length : 0;
@@ -372,84 +371,62 @@ export default function CallPage({
         <div className="call-grid">
           <ProspectCard p={current} history={history} />
           <section className="panel script-panel">
-            <div className="panel-tabs">
-              <button className={`ptab ${panel === "script" ? "is-active" : ""}`} onClick={() => setPanel("script")}>
-                Script
-              </button>
-              <button className={`ptab ${panel === "objections" ? "is-active" : ""}`} onClick={() => setPanel("objections")}>
-                Objections <kbd>O</kbd>
-              </button>
-              <button className={`ptab ${panel === "frontdesk" ? "is-active" : ""}`} onClick={() => setPanel("frontdesk")}>
-                Front desk
-              </button>
-              <button className={`ptab ${panel === "voicemail" ? "is-active" : ""}`} onClick={() => setPanel("voicemail")}>
-                Voicemail
-              </button>
+            <div className="script-area">
+              {obj ? (
+                <Rebuttal obj={obj} p={current} onClose={() => setOpenObj(null)} />
+              ) : (
+                <>
+                  <div className="script-picker">
+                    {(Object.keys(SCRIPT_LABELS) as ScriptId[]).map((id) => (
+                      <button
+                        key={id}
+                        className={`seg-btn ${panel === "script" && scriptId === id ? "is-on" : ""}`}
+                        onClick={() => {
+                          setScriptPick(id);
+                          setPanel("script");
+                        }}
+                        title={`${SCRIPT_LABELS[id].title}. ${SCRIPT_LABELS[id].ends}.`}
+                      >
+                        {SCRIPT_LABELS[id].short}
+                        {scriptPick === "auto" && scriptId === id && <em> auto</em>}
+                      </button>
+                    ))}
+                    <button className={`seg-btn ${panel === "frontdesk" ? "is-on" : ""}`} onClick={() => setPanel("frontdesk")}>
+                      Front desk
+                    </button>
+                    <button className={`seg-btn ${panel === "voicemail" ? "is-on" : ""}`} onClick={() => setPanel("voicemail")}>
+                      Voicemail
+                    </button>
+                    {panel === "script" && <span className="script-why muted small">{whyScript(current, scriptId)}</span>}
+                  </div>
+                  {panel === "script" ? (
+                    <ScriptView lines={lines} />
+                  ) : panel === "frontdesk" ? (
+                    <ScriptView lines={frontDeskLines(current, lib)} />
+                  ) : (
+                    <ScriptView lines={voicemailLines(current, lib)} />
+                  )}
+                </>
+              )}
             </div>
 
-            {panel === "script" && (
-              <>
-                <div className="script-picker">
-                  {(Object.keys(SCRIPT_LABELS) as ScriptId[]).map((id, i) => (
-                    <button
-                      key={id}
-                      className={`seg-btn ${scriptId === id ? "is-on" : ""}`}
-                      onClick={() => setScriptPick(id)}
-                      title={`${SCRIPT_LABELS[id].title}. ${SCRIPT_LABELS[id].ends}. Shortcut: ${i + 1}`}
-                    >
-                      {SCRIPT_LABELS[id].short}
-                      {scriptPick === "auto" && scriptId === id && <em> auto</em>}
-                    </button>
-                  ))}
-                </div>
-                <p className="script-why muted small">{whyScript(current, scriptId)}</p>
-                <ScriptView lines={lines} />
-              </>
-            )}
-
-            {panel === "objections" && obj && (
-              <div className="objections">
-                <div className="obj-list">
-                  {objs.map((o, i) => (
-                    <button key={o.key} className={`obj-btn ${obj.key === o.key ? "is-on" : ""}`} onClick={() => setObjection(i)}>
-                      {i < 10 && <kbd>{(i + 1) % 10}</kbd>} {o.title}
-                    </button>
-                  ))}
-                  <a className="link-btn small" href="#scripts">
-                    Edit objections
-                  </a>
-                </div>
-                <div className="obj-detail">
-                  <div className="obj-col">
-                    <h3>
-                      ARA <span>first pushback</span>
-                    </h3>
-                    <p className="script-say pre-line">
-                      <Segs segs={objectionSegs(obj.body, current)} />
-                    </p>
-                  </div>
-                  {obj.body2?.trim() && (
-                    <div className="obj-col">
-                      <h3>
-                        ACE <span>still talking</span>
-                      </h3>
-                      <p className="script-say pre-line">
-                        <Segs segs={objectionSegs(obj.body2, current)} />
-                      </p>
-                    </div>
-                  )}
-                  {obj.note && (
-                    <p className="script-cue">
-                      <Segs segs={objectionSegs(obj.note, current)} />
-                    </p>
-                  )}
-                  <p className="muted small">A hard no ends the call: "No problem at all, thanks for your time." Then hit D.</p>
-                </div>
+            <div className="obj-dock">
+              <div className="obj-dock-head">
+                <span className="obj-dock-title">Objections</span>
+                <span className="muted small">Tap one or press its number. Esc goes back to the script.</span>
+                <a className="link-btn small" href="#scripts">
+                  Edit
+                </a>
               </div>
-            )}
-
-            {panel === "frontdesk" && <ScriptView lines={frontDeskLines(current, lib)} />}
-            {panel === "voicemail" && <ScriptView lines={voicemailLines(current, lib)} />}
+              <div className="obj-grid">
+                {objs.map((o, i) => (
+                  <button key={o.key} className={`obj-tile ${openObj === i ? "is-on" : ""}`} onClick={() => pickObjection(i)} title={o.title}>
+                    {i < 10 && <kbd>{(i + 1) % 10}</kbd>}
+                    <span>{shortLabel(o)}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
           </section>
         </div>
       )}
@@ -518,6 +495,45 @@ export default function CallPage({
       {modal?.kind === "book" && current && (
         <BookModal prospect={current} onClose={() => setModal(null)} onConfirm={(m) => doLog("booked", { meeting: m })} />
       )}
+    </div>
+  );
+}
+
+/** Short button label: the built-in short name, or a custom objection's title up to the first slash. */
+function shortLabel(o: ScriptDef): string {
+  return o.short ?? o.title.split(" / ")[0];
+}
+
+/** The rebuttal for one objection, big enough to read mid-call. */
+function Rebuttal({ obj, p, onClose }: { obj: ScriptDef; p: Doc<"prospects">; onClose: () => void }) {
+  return (
+    <div className="rebuttal">
+      <div className="rebuttal-head">
+        <h2>{obj.title}</h2>
+        <button className="btn btn-ghost btn-small" onClick={onClose}>
+          Back to script <kbd>Esc</kbd>
+        </button>
+      </div>
+      <div className="rb-block">
+        <span className="rb-label">Say this</span>
+        <p className="rb-say pre-line">
+          <Segs segs={objectionSegs(obj.body, p)} />
+        </p>
+      </div>
+      {obj.body2?.trim() && (
+        <div className="rb-block is-second">
+          <span className="rb-label">If they push back again</span>
+          <p className="rb-say pre-line">
+            <Segs segs={objectionSegs(obj.body2, p)} />
+          </p>
+        </div>
+      )}
+      {obj.note && (
+        <p className="rb-note">
+          <Segs segs={objectionSegs(obj.note, p)} />
+        </p>
+      )}
+      <p className="muted small">A hard no ends the call: "No problem at all, thanks for your time." Then log it.</p>
     </div>
   );
 }

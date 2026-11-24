@@ -43,7 +43,7 @@ describe("message text", () => {
 
     const d = emailDraft(withSite, undefined, now);
     expect(d.subject).toBe("Harvey // Chris | Intro");
-    expect(emailDraft(p({ business: "No Name Co" }), undefined, now).subject).toBe("No Name Co | More calls from Google");
+    expect(emailDraft(p({ business: "No Name Co" }), undefined, now).subject).toBe("No Name Co | Standing out online");
     expect(d.body).toMatch(/^Good morning Harvey,/);
     expect(d.body).toContain("Beyond Belief Web Design here in Monroe, where I work with local businesses a lot like yours");
     expect(d.body).toContain("show you what a homepage redesign could look like for Harvey's Plumbing, and walk through how it can bring you more business");
@@ -53,7 +53,7 @@ describe("message text", () => {
 
     const b = emailDraft(noSite, undefined, now);
     expect(b.body).toMatch(/^Good morning,/);
-    expect(b.body).toContain("get a website up with no money down");
+    expect(b.body).toContain("with no money down");
     expect(b.body).toContain("show you what a homepage could look like for Bob's Roofing");
 
     for (const e of [d, b]) {

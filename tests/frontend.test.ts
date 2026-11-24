@@ -57,8 +57,21 @@ describe("scripts", () => {
     const opener = buildScript("cold", prospect(), new Date(2026, 10, 23, 9))
       .map((l) => ("segs" in l ? l.segs.map((s) => s.text).join("") : l.text))
       .join("\n");
-    expect(opener).toContain("I help local businesses like yours get more calls from Google and AI search engines");
+    expect(opener).toContain("I build custom websites that make local businesses look like the most trusted name in their area");
     expect(opener).not.toContain(v.trade!);
+  });
+
+  test("call openers lead with design and hands-off service, not rankings", () => {
+    for (const id of ["cold", "followup"] as const) {
+      for (const p of [prospect(), prospect({ website: "", builtWith: "No website" })]) {
+        const text = buildScript(id, p, new Date(2026, 10, 23, 9))
+          .map((l) => ("segs" in l ? l.segs.map((s) => s.text).join("") : l.text))
+          .join("\n");
+        expect(text).toContain("so you never have to touch your website again");
+        expect(text).toContain("stand out against your competitors");
+        expect(text).not.toMatch(/Google|ChatGPT|Gemini|AI search|rank/);
+      }
+    }
   });
 
   test("no script ever claims the homepage is already built, and every one asks for the walkthrough", () => {
