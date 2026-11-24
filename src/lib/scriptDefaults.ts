@@ -32,34 +32,36 @@ export const DEFAULT_SCRIPTS: ScriptDef[] = [
     category: "call",
     order: 1,
     title: "Script 1 · Follow-up call",
-    note: "They already got a message from you. Who you are, why you're calling, then the meeting ask.",
+    note: "Connor's Who, Why, What. They already got a message from you. Straight from the greeting to why you're calling, then an assumptive ask for time.",
     body: `Hey {name}, this is Chris calling from Beyond Belief Web Design, how's it going?
 
 (Downward inflection. Wait for their answer.)
 
-{if:site} Good! I'm a web designer {monroe}, and I reached out by {channel} {since}. I build custom websites that make local businesses look like the most trusted name in their area, even if they're the smallest shop in town. And I handle everything, so you never have to touch your website again. I had a few ideas for redesigning your homepage.
-{if:!site} Good! I'm a web designer {monroe}, and I reached out by {channel} {since}. I build custom websites that make local businesses look like the most trusted name in their area, even if they're the smallest shop in town. And I handle everything, so you never have to touch your website again. I had a few ideas for a homepage for {business}.
+Good! I'm reaching out because I sent you a note by {channel} {since}. I'm a web designer {monroe} that works with local businesses like yours across the Charlotte area.
+
+So I focus on things like custom website design and handling the whole website for you, things like that, usually by helping local businesses look like the most trusted name in their area, never have to worry about their website, and bring in more calls.
 
 (Pause a beat. Let it land.)
 
-I know I'm calling you out of the blue. I'm just trying to find some time to show you {homepage}, and how it could bring in more business and help you stand out against your competitors. Does {window} work best for you?`,
+And I know I kind of called you out of the blue here too, so I was actually more looking to set some time aside, just to show you {homepage}, and how it could bring in more business and help you stand out against your competitors. What's your calendar like {day1} or {day2}?`,
   },
   {
     key: "call.cold",
     category: "call",
     order: 2,
     title: "Script 2 · Cold call",
-    note: "No earlier message. Who you are, why you're calling, then the meeting ask.",
+    note: "Connor's Who, Why, What. No earlier message. Straight from the greeting to why you're calling, then an assumptive ask for time.",
     body: `Hey {name}, this is Chris calling from Beyond Belief Web Design, how's it going?
 
 (Downward inflection. Wait for their answer.)
 
-{if:site} Good! I'm a web designer {monroe}. I build custom websites that make local businesses look like the most trusted name in their area, even if they're the smallest shop in town. And I handle everything, so you never have to touch your website again. I had a few ideas for redesigning your homepage.
-{if:!site} Good! I'm a web designer {monroe}. I build custom websites that make local businesses look like the most trusted name in their area, even if they're the smallest shop in town. And I handle everything, so you never have to touch your website again. I had a few ideas for a homepage for {business}.
+Good! I'm reaching out because I'm a web designer {monroe} that works with local businesses like yours across the Charlotte area.
+
+So I focus on things like custom website design and handling the whole website for you, things like that, usually by helping local businesses look like the most trusted name in their area, never have to worry about their website, and bring in more calls.
 
 (Pause a beat. Let it land.)
 
-I know I'm calling you out of the blue. I'm just trying to find some time to show you {homepage}, and how it could bring in more business and help you stand out against your competitors. Does {window} work best for you?`,
+And I know I kind of called you out of the blue here too, so I was actually more looking to set some time aside, just to show you {homepage}, and how it could bring in more business and help you stand out against your competitors. What's your calendar like {day1} or {day2}?`,
   },
   {
     key: "call.frontdesk",
@@ -107,10 +109,10 @@ Perfect, that helps a lot. I'll work that in and talk to you {when}.
     short: "Who is this?",
     order: -1,
     title: "Who is this?",
-    body: `{if:contacted} It's Chris, with Beyond Belief Web Design {monroeShort}. I reached out by {channel} {since} about {business}, so I figured I'd put a voice to it. I'm a web designer. I build custom websites that make local businesses look like the most trusted name in their area, and I handle everything so you never have to touch your site. I had a few ideas for your homepage. Can I take 30 seconds to tell you what they are?
-{if:!contacted} It's Chris, with Beyond Belief Web Design {monroeShort}. We haven't talked before, so I'll be honest with you, this is a cold call. I'm a web designer. I build custom websites that make local businesses look like the most trusted name in their area, and I handle everything so you never have to touch your site. I had a few ideas for your homepage. Can I take 30 seconds to tell you why I'm calling, and you tell me if it's worth another minute?`,
-    body2: "Totally fair question. I found {business} on Google, and I only reach out to a handful of local businesses I think I can actually help. I'm not trying to sell you anything over the phone. I just want to find 15 minutes to show you {homepage}, and how it could bring in more business and help you stand out against your competitors. Does {window} work best for you?",
-    note: "Usually they just didn't catch your name, so they're not annoyed. Say it slower and warmer than the first time, own that it's a cold call, and don't apologize for calling. If they ask how you got their number, it's the ACE side: you found them on Google.",
+    body: `{if:contacted} It's Chris, with Beyond Belief Web Design {monroeShort}. I sent you a note by {channel} {since}. I'm a web designer, and I work with local businesses like yours on custom websites and handling the whole site for them, so they look like the most trusted name in their area. I was actually looking to set some time aside to show you {homepage}. What's your calendar like {day1} or {day2}?
+{if:!contacted} It's Chris, with Beyond Belief Web Design {monroeShort}. I'm a web designer, and I work with local businesses like yours on custom websites and handling the whole site for them, so they look like the most trusted name in their area. I was actually looking to set some time aside to show you {homepage}. What's your calendar like {day1} or {day2}?`,
+    body2: "Totally fair question. I found {business} on Google, and I only reach out to a handful of local businesses I think I can actually help. I'm not trying to sell you anything over the phone. I was more looking to set 15 minutes aside to show you {homepage}, and how it could bring in more business and help you stand out against your competitors. What's your calendar like {day1} or {day2}?",
+    note: "Usually they just didn't catch your name, so they're not annoyed. Say it slower and warmer than the first time, run Who, Why, What again in short, and end on the calendar. No apologizing, no asking for 30 seconds. If they ask how you got their number, it's the ACE side: you found them on Google.",
   },
   {
     key: "objection.bad-time",
@@ -123,14 +125,24 @@ Perfect, that helps a lot. I'll work that in and talk to you {when}.
     note: "Don't pitch. Get a specific time, repeat it back (\"Perfect, I'll call you at 4:30\"), then hit Call back (C) and set it.",
   },
   {
+    key: "objection.calls-all-time",
+    category: "objection",
+    short: "Get these calls a lot",
+    order: 0.5,
+    title: "We get these calls all the time / Is this a sales call?",
+    body: "I bet you do, and most of them are from out of state or overseas. I'm actually {monroe}. I'm not asking you to sign up for anything, I just want to show you {homepage}. If you'd rather not do it over the phone, I can bring my laptop by your shop or wherever you'll be {day1} morning and show you in person. What's your calendar like {day1} or {day2}?",
+    body2: "Totally fair. Are most of those calls trying to get you to buy a package right there on the phone? The reason I ask is that's not what this is. I just want to show you what I'd do with your homepage. No money, no commitment, and if you don't like it, we shake hands and move on. I'm local, and I like working with the people I build for directly, not through an account manager.",
+    note: "Lean on being local. Offer to come by in person when they're close enough to drive to; for far counties, keep it to a screen share.",
+  },
+  {
     key: "objection.send",
     category: "objection",
     short: "Just send it",
     order: 1,
     title: "Just send it over",
-    body: "Yeah, I can definitely do that. The reason I'd rather show you live is the homepage is only half of it. The other half is why it's designed the way it is, and how that makes people trust you enough to pick up the phone. That doesn't really come across in a video. It's 15 minutes. Does {day1Ask} work, or is {day2} better?",
+    body: "Yeah, I can definitely do that. The reason I'd rather show you live is the homepage is only half of it. The other half is why it's designed the way it is, and that doesn't really come across in an email. It's 15 minutes. What's your calendar like {day1} or {day2}?",
     body2: "Totally, I'll send it. Quick question so I send the right thing: when you look at it, what would make it worth a conversation for you? More calls, looking more professional, something else? The reason I ask is most owners care about one of those a lot more than the other, and I'd rather focus the homepage on the parts that matter to you than send something generic.",
-    note: "If they insist, send a couple of sites you've built, then: \"If those land, can we grab 15 minutes on {day2} so I can show you what yours could look like?\"",
+    note: "If they insist, send a couple of sites you've built, then: \"If those land, let's grab 15 minutes on {day2} so I can show you what yours could look like.\"",
   },
   {
     key: "objection.have-site",
@@ -138,7 +150,7 @@ Perfect, that helps a lot. I'll work that in and talk to you {when}.
     short: "Have a site",
     order: 2,
     title: "Already have a site / a guy",
-    body: "Got it, that makes sense. This wouldn't be about ripping anything out today. It's really just showing you a different take on your homepage so you've got something to compare against. 15 minutes, {day1} or {day2}?",
+    body: "Got it, that makes sense. This wouldn't be about ripping anything out today. It's really just showing you a different take on your homepage, so you've got something to compare against. What's your calendar like {day1} or {day2}?",
     body2: "Got it. Is the site bringing in the kind of calls you want right now, or is it more of an online business card? The reason I ask is a lot of sites I see show up fine, but they look like every other {tradeOne} out there, so people don't have a reason to pick them. That usually comes down to the design and how the homepage is laid out. If yours is already doing that, I'll tell you.",
   },
   {
@@ -147,7 +159,7 @@ Perfect, that helps a lot. I'll work that in and talk to you {when}.
     short: "Word of mouth",
     order: 3,
     title: "Word of mouth",
-    body: "That makes sense, and honestly that's the best kind of business. This wouldn't be about replacing that. A lot of referrals look you up before they call, so it's more about making sure your site backs up what people are saying about you. 15 minutes on {day2}?",
+    body: "That makes sense, and honestly that's the best kind of business. This wouldn't be about replacing that. A lot of referrals look you up before they call, so it's really just showing you a homepage that backs up what people are saying about you. What's your calendar like {day1} or {day2}?",
     body2: "Love that. When someone gets your name from a friend, what do you think they do before they call? Google you, check Facebook? The reason I ask is that's usually where the website either seals it or makes them second-guess, and that's a lot of what I'd build the homepage around.",
   },
   {
@@ -156,7 +168,7 @@ Perfect, that helps a lot. I'll work that in and talk to you {when}.
     short: "Slammed",
     order: 4,
     title: "Slammed right now",
-    body: "Totally get it, sounds like business is good. That's why I'd keep it to 15 minutes with no prep on your end. Would before your day starts or after you wrap up be easier, {day1} or {day2}?",
+    body: "Totally get it, sounds like business is good. Honestly, that's what I hear from most owners: they know the website needs work, they just don't have the time for it. That's the whole idea, I handle all of it. It's 15 minutes with no prep on your end, before your day starts or after you wrap up. What's your calendar like {day1} or {day2}?",
     body2: "Is it busy right now because of the season, or is that pretty much year-round for you? I only ask because if you've got a slower stretch coming, that's usually the best time to get a new site live so it's already working when things pick back up.",
   },
   {
@@ -165,9 +177,9 @@ Perfect, that helps a lot. I'll work that in and talk to you {when}.
     short: "What's it cost?",
     order: 5,
     title: "What's it cost / no budget",
-    body: "Fair question. It's a monthly plan with no big upfront cost, starting at $149 a month. But honestly, I'd rather show you what the homepage could look like first, and you decide if it's even worth talking numbers. 15 minutes on {day2}?",
+    body: "Got it, makes sense. This wouldn't be a pricing conversation right now. It's a monthly plan with no big upfront cost, and I'll walk you through all of it once you've seen the homepage and know if it's even worth talking numbers. What's your calendar like {day1} or {day2}?",
     body2: "Totally fair. Roughly what are you paying for the current site right now, between hosting and whoever updates it? The reason I ask is a lot of owners are already paying something every month and not getting much back for it, so sometimes it's less about new budget and more about where that money's going.",
-    note: "Give the starting price straight. Save Essentials vs. Professional for the meeting.",
+    note: "Don't quote numbers on a cold call. If they press a second time: \"It starts at $149 a month, and I'll show you exactly what's included.\" Then straight back to the calendar.",
   },
   {
     key: "objection.not-interested",
@@ -175,7 +187,7 @@ Perfect, that helps a lot. I'll work that in and talk to you {when}.
     short: "Not interested",
     order: 6,
     title: "Not interested",
-    body: "Totally fair, I did call out of the blue. Just to be clear, I'm not asking you to buy anything on the phone. It's really just 15 minutes to show you what a homepage redesign could look like for you. If it's not for you, no hard feelings. {day1} or {day2}?",
+    body: "Totally fair, I did call out of the blue. I'm not asking you to buy or sign up for anything. It's really just 15 minutes to show you {homepage}. No money and no commitment on your end, and if you don't like it, we shake hands and move on. What's your calendar like {day1} or {day2}?",
     body2: "Fair enough. Is that more \"not interested in a new website, period,\" or more \"not right now\"? I only ask because those are pretty different. If it's just not a priority, I'll leave you alone. If it's timing, I'm happy to check back when it makes more sense.",
   },
 
@@ -185,9 +197,9 @@ Perfect, that helps a lot. I'll work that in and talk to you {when}.
     short: "Why you?",
     order: 7,
     title: "Why you? / Everyone does websites",
-    body: "Fair question, there are a lot of options. Most agencies sell you on rankings, then hand you a template site stuffed with keywords. It might show up on Google, but it doesn't make anyone want to call. I do it the other way around. Every site is designed from scratch around your brand, so even a small shop looks like the most trusted name in town. And I handle everything after launch: edits, updates, upkeep. You just text me when you want something changed. Easier to show you than tell you though. 15 minutes, {day1} or {day2}?",
+    body: "Got it, fair question, there are a lot of options. The short version is every site is designed from scratch around your brand, and I handle everything after launch, so you never have to touch it. That's a lot easier to show you than tell you. What's your calendar like {day1} or {day2}?",
     body2: "Totally fair. Have you worked with a web company before? The reason I ask is most owners I talk to got burned somewhere along the way: a big bill up front, a template site, or someone who won't hand over the keys. If I know what went wrong last time, I can tell you straight whether I'm actually any different.",
-    note: "Design and hands-off first. If they want more: I hand-code every site myself (no Wix or Squarespace bloat), there's no big upfront bill, they own everything, and I only take one {tradeOne} per county. Pick one or two, never the whole list.",
+    note: "Don't list everything here. Hand-coding, no upfront bill, owning everything, one company per county: that's all for the meeting.",
   },
 
   {
@@ -196,9 +208,9 @@ Perfect, that helps a lot. I'll work that in and talk to you {when}.
     short: "Why AI?",
     order: 8,
     title: "Why does AI matter? / My customers just call me",
-    body: "Fair question. More and more people are asking ChatGPT or Gemini things like \"who's a good {tradeOne} near me\" instead of scrolling through Google. Those tools read your website, your Google listing, and your reviews. I hand-code every site myself, no Wix or Squarespace bloat, so it's fast and clean, and that's what Google and those AI tools reward. But showing up is only half of it. The site still has to make people trust you enough to call, and that's what I'd show you. 15 minutes, {day1} or {day2}?",
+    body: "Got it, makes sense. More and more people are asking ChatGPT or Gemini for a {tradeOne} near them, and those tools pull from your website. This wouldn't be about chasing AI today. It's really just showing you the homepage, and I'll walk you through how it's set up for that when we meet. What's your calendar like {day1} or {day2}?",
     body2: "Have you ever asked ChatGPT for a {tradeOne} in {town}? The reason I ask is it's a quick way to see if you show up. If you're not in that answer, it's usually because your site and Google listing aren't giving it enough to go on, and that part's very fixable.",
-    note: "Say \"more and more people,\" never \"more than Google.\" If they ask how it works: clear service and town pages, structured data on the site, a strong Google Business Profile, and reviews. Those are what AI tools read.",
+    note: "One sentence about AI, then back to the meeting. The how (hand-coded, fast, clear service and town pages, Google listing, reviews) is for the meeting. Say \"more and more people,\" never \"more than Google.\"",
   },
   {
     key: "objection.no-video",
@@ -206,9 +218,9 @@ Perfect, that helps a lot. I'll work that in and talk to you {when}.
     short: "No video call",
     order: 9,
     title: "Can we just do a phone call? / I don't do video",
-    body: "Totally fine, you don't need to be on camera at all. It's just a link that opens right on your phone, nothing to download, and you watch me scroll through the homepage while we talk. 15 minutes, still good for {day1} or {day2}?",
+    body: "Totally fine, you don't need to be on camera at all. It's just a link that opens right on your phone, nothing to download. Or since I'm {monroe}, I can bring my laptop by and show you in person, wherever you're going to be. What's your calendar like {day1} or {day2}?",
     body2: "No problem. Would it be easier to look at it on your phone or a computer? I only ask because the homepage is something you really have to see, so I'd rather set it up however's easiest for you.",
-    note: "Send a Google Meet link and say \"no download, no camera needed.\" If they still push back: \"I'll just call you at that time and text you the link while we're talking.\"",
+    note: "Offer in person when they're close enough to drive to. Otherwise send a Google Meet link and say \"no download, no camera needed.\" If they still push back: \"I'll just call you at that time and text you the link while we're talking.\"",
   },
 
   {
@@ -217,8 +229,8 @@ Perfect, that helps a lot. I'll work that in and talk to you {when}.
     short: "Google Maps",
     order: 10,
     title: "We get calls from Google Maps / Google listing",
-    body: `{if:rating} That's great, the map listing is where a lot of local calls come from. The thing is, Google ranks that listing partly off your website, so the two work together. I also set up and optimize Google Business Profiles as part of what I do, to get you higher in that top three on the map. Let me show you both. 15 minutes, {day1} or {day2}?
-{if:!rating} Funny you mention Google. When I looked, I couldn't find a Google listing for you, so people searching for a {tradeOne} nearby can't call you from the map. Setting that up and optimizing it is one of the first things I do, along with the homepage. 15 minutes, {day1} or {day2}?`,
+    body: `{if:rating} That's great, the map listing is where a lot of local calls come from, and your website plays a big part in how that listing ranks. This wouldn't be about changing anything today. It's really just showing you the homepage and how it backs up your listing. What's your calendar like {day1} or {day2}?
+{if:!rating} Got it. When I looked, I couldn't find a Google listing for you, so that's worth a look too. This wouldn't be about changing anything today. It's really just showing you the homepage and where your listing fits in. What's your calendar like {day1} or {day2}?`,
     body2: "When someone searches \"{tradeOne} near me\" around {town}, do you know where you land in that top three on the map? The reason I ask is most of the calls go to those three spots, and it usually comes down to a complete profile, steady reviews, and a website that backs it up. If you're already up there, I'll tell you.",
     note: "Check their Google listing before the call. Their rating and review count are on the left. Before the meeting, search their trade and town on Google Maps and screenshot where they land.",
   },
@@ -249,14 +261,15 @@ Why don't we hop on a quick call {window}, and let me show you {newHomepage}: wh
   },
 
   // ---------- Email: Connor Murray's cold email sequence ----------
-  // One first email (Framework 1, Who > Why > What), then three follow-ups in the same thread.
+  // His Framework 1 first email, then Follow-up 1 (Option B), 2 and 3 in the same thread. Keep his wording;
+  // only the details are ours.
   {
     key: "email.first",
     category: "email",
     order: 1,
     title: "First email",
     subject: "{if:name} {name} // Chris | Intro\n{if:!name} {business} | Standing out online",
-    note: "Connor's Framework 1. Subject uses his name // name pattern when you know the owner, otherwise company | priority. Also the next touch for anyone you've only messaged on Facebook. Tomorrow they're on your call list.",
+    note: "Connor's Framework 1 (Direct Introduction & Value Proposition). Subject uses his name // name pattern when you know the owner, otherwise company | priority. Also the next touch for anyone you've only messaged on Facebook. Tomorrow they're on your call list.",
     body: `{if:name} Good morning {name},
 {if:!name} Good morning,
 
@@ -264,12 +277,10 @@ I'm reaching out from Beyond Belief Web Design {monroeShort}, where I work with 
 
 {if:contacted} I also reached out by {channel} {since}, in case that got buried.
 
-{if:site} Beyond Belief is a custom web design studio. Every site is designed from scratch around the business's brand, so even a small local company looks like the most trusted, established name in its market. And I handle everything after launch, from edits to updates to upkeep, so you never have to think about your website again.
-{if:!site} Beyond Belief is a custom web design studio. Every site is designed from scratch around the business's brand, with no money down, so even a small local company looks like the most trusted, established {tradeOne} when people nearby look it up. And I handle everything after launch, so you never have to think about your website.
+{if:site} We're a custom web design studio that helps local businesses get a website designed from scratch around their brand, hand off every edit and update, and make calling or requesting a quote easy from a phone, to look like the most trusted name in their area and bring in more calls.
+{if:!site} We're a custom web design studio that helps local businesses get a website designed around their brand with no money down, hand off every edit and update, and make calling or requesting a quote easy from a phone, to look like the most trusted name in their area and bring in more calls.
 
-Unlike most agencies, there's no big upfront bill, you work with me directly, and you own your site and everything on it.
-
-I'm looking to set time to briefly introduce myself, show you {homepage}, and walk through how it can bring you more business and help you stand out against your competitors. What does your availability look like next week?
+I'm looking to set time to briefly introduce myself, show you {homepage}, and see where I may be able to help you stand out against your competitors and bring in more business. What does your availability look like next week?
 
 Thanks in advance,
 {sig}
@@ -281,22 +292,22 @@ P.S. If this isn't a fit, just reply and let me know and I won't reach out again
     category: "email",
     order: 2,
     title: "Follow-up 1 · Value add",
-    note: "The day after your first call attempt, in the same thread. Three use cases, no fake proof.",
+    note: "Connor's Follow-up 1, Option B (use cases). The day after your first call attempt, in the same thread. Exactly three use cases, no fake proof.",
     body: `{if:name} Hi {name},
 {if:!name} Hi,
 
-To give you a better idea, a lot of agencies sell local businesses on rankings, then hand them a template site stuffed with keywords. It might show up on Google, but it doesn't make anyone want to call. I do it the other way around.
+To give you a better idea, Beyond Belief works with local businesses like yours to look like the most trusted name in their area and bring in more calls from the people already looking for them.
 
-Every site is designed from scratch around your brand and hand-coded by me, with no Wix or Squarespace bloat. A fast, clean site also tends to rank better on Google and in AI search, but the point is that people trust what they land on. There's no big upfront bill, you own your domain and everything on it, and I only take on one {tradeOne} per county, so I'm never building for your competition.
+What makes my approach different is that every site is designed from scratch around your brand, never a template or page builder, and I handle every edit and update so you never have to touch it.
 
-I focus on three things:
+I focus on three core use cases:
 
 - Standing out: a custom design built around your brand, so you look like the most trusted {tradeOne} in {area}, even next to bigger competitors
 {if:site} - More calls from the homepage: a layout that makes calling or requesting a quote the obvious next step, especially on a phone
 {if:!site} - Calls from a phone: one tap to call or request a quote, with your services, service area, and hours right up front
 - Hands-off upkeep: I handle hosting, edits, and updates, and you can change anything anytime by just sending me a message
 
-Let me know if any of these are a focus for you, and I'll send over an invite to walk you through {homepage}.
+Let me know if any of these are a focus for you, and I'll send over an invite.
 
 Thanks,
 {sig}`,
@@ -306,11 +317,11 @@ Thanks,
     category: "email",
     order: 3,
     title: "Follow-up 2 · Direct request",
-    note: "The day after your second call attempt, in the same thread. Short on purpose, no new pitch.",
+    note: "Connor's Follow-up 2, word for word. The day after your second call attempt, in the same thread. Short on purpose, no new pitch.",
     body: `{if:name} Hi {name},
 {if:!name} Hi,
 
-Please let me know your thoughts on a quick walkthrough when you have a moment.
+Please let me know your thoughts on this when you have a moment.
 
 Thanks,
 {sig}`,
@@ -320,11 +331,11 @@ Thanks,
     category: "email",
     order: 4,
     title: "Follow-up 3 · Close the loop",
-    note: "The day after your third call attempt, in the same thread. Last email. No guilt, no fake deadline.",
+    note: "Connor's Follow-up 3, word for word. The day after your third call attempt, in the same thread. Last email. No guilt, no fake deadline.",
     body: `{if:name} Hi {name},
 {if:!name} Hi,
 
-I'm planning the next couple of weeks and wanted to close the loop either way. Does a quick walkthrough of the homepage make sense now, or would {laterMonth} be better?
+I'm planning the next couple of weeks and wanted to close the loop either way. Does a brief introduction make sense now, or would {laterMonth} be better?
 
 Thanks,
 {sig}`,
@@ -350,13 +361,18 @@ No big upfront bill: one monthly plan, where most agencies charge thousands up f
 You own everything: domain, site, and accounts. No platform lock-in, nothing held hostage.
 Hand-coded by you, never Wix or Squarespace bloat: it's what you've specialized in for over 10 years, and a fast, clean site ranks better on Google and in AI search as a byproduct. Touch it lightly, never in an opener.
 One company per industry per county: you never build for their competition.
-They deal with you directly: a local guy in Monroe, not an account manager or an overseas team.
+No-risk meeting: you're not asking them to buy or sign up, just 15 minutes to see the homepage. No money, no commitment. If they don't like it, shake hands and move on.
+Local, in person if they want: most of these calls come from out of state or overseas. You live in Monroe and can bring your laptop to their shop or job site.
+A personal partnership: they deal with you directly, not an account manager or an overseas team.
+They know the site needs work but don't have the time: that's the point, you handle all of it.
 They see the homepage before committing to anything.
 
-THE FRAMEWORK: WHO, WHY, WHAT
-Who: you, Beyond Belief, Monroe, local businesses like theirs. One sentence.
-Why: what they care about. Looking like the most trusted name in their area, standing out from competitors, and never having to deal with their website.
-What: a direct ask for the meeting with a day. Never "Would you be open to" or "Thoughts?"
+THE FRAMEWORK: CONNOR'S WHO, WHY, WHAT (every call follows it)
+Greeting: "Hey [Name], this is Chris calling from Beyond Belief Web Design, how's it going?" Downward inflection, then straight into why you're calling.
+Who: "I'm reaching out because I'm a web designer in Monroe that works with local businesses like yours." One sentence.
+Why: "So I focus on things like..., things like that, usually by helping..." What they care about: looking like the most trusted name in their area, standing out from competitors, and never having to deal with their website.
+What: assumptive. "And I know I kind of called you out of the blue here too, so I was actually more looking to set some time aside, just to show you... What's your calendar like tomorrow or Wednesday?" Always two real days.
+Never ask permission ("Can I take 30 seconds?", "Did I catch you at a bad time?", "Would you be open to"). Assume the meeting, and let them decline.
 
 THE ABAB CADENCE
 Every prospect alternates writing and calling, one business day apart:

@@ -57,19 +57,23 @@ describe("scripts", () => {
     const opener = buildScript("cold", prospect(), new Date(2026, 10, 23, 9))
       .map((l) => ("segs" in l ? l.segs.map((s) => s.text).join("") : l.text))
       .join("\n");
-    expect(opener).toContain("I build custom websites that make local businesses look like the most trusted name in their area");
+    expect(opener).toContain("I'm reaching out because I'm a web designer right here in Monroe that works with local businesses like yours");
     expect(opener).not.toContain(v.trade!);
   });
 
-  test("call openers lead with design and hands-off service, not rankings", () => {
+  test("call openers follow Connor's Who, Why, What: design-first, assumptive, no permission asks", () => {
     for (const id of ["cold", "followup"] as const) {
       for (const p of [prospect(), prospect({ website: "", builtWith: "No website" })]) {
         const text = buildScript(id, p, new Date(2026, 10, 23, 9))
           .map((l) => ("segs" in l ? l.segs.map((s) => s.text).join("") : l.text))
           .join("\n");
-        expect(text).toContain("so you never have to touch your website again");
-        expect(text).toContain("stand out against your competitors");
+        expect(text).toContain("this is Chris calling from Beyond Belief Web Design, how's it going?");
+        expect(text).toContain("Good! I'm reaching out because");
+        expect(text).toContain("look like the most trusted name in their area, never have to worry about their website");
+        expect(text).toContain("so I was actually more looking to set some time aside, just to show you");
+        expect(text).toMatch(/What's your calendar like [^?]+\?$/);
         expect(text).not.toMatch(/Google|ChatGPT|Gemini|AI search|rank/);
+        expect(text).not.toMatch(/30 seconds|can I take|would you be open|bad time|is that okay|if that's alright/i);
       }
     }
   });
@@ -86,7 +90,7 @@ describe("scripts", () => {
         .join("\n");
     for (const id of ["followup", "cold"] as const) {
       expect(text(id)).toContain(
-        "I know I'm calling you out of the blue. I'm just trying to find some time to show you what a homepage redesign could look like for Harvey's Plumbing, and how it could bring in more business and help you stand out against your competitors. Does tomorrow or later this week work best for you?",
+        "And I know I kind of called you out of the blue here too, so I was actually more looking to set some time aside, just to show you what a homepage redesign could look like for Harvey's Plumbing, and how it could bring in more business and help you stand out against your competitors. What's your calendar like tomorrow or Wednesday?",
       );
     }
   });
@@ -146,7 +150,7 @@ describe("editable scripts", () => {
     expect(lib.list("facebook").map((x) => x.key)).toEqual(["facebook.first", "facebook.followup"]);
     const custom = makeLibrary([{ key: "custom.objection.x", category: "objection", title: "Bad experience", body: "Hmm", order: 9, custom: true }]);
     expect(custom.list("objection").map((o) => o.title).at(-1)).toBe("Bad experience");
-    expect(custom.list("objection")).toHaveLength(13);
+    expect(custom.list("objection")).toHaveLength(14);
   });
 });
 
@@ -188,5 +192,18 @@ describe("dates and stats", () => {
     const days = byDay(calls);
     expect(days.get("2026-11-23")?.booked).toBe(3);
     expect(streak(days, 3, new Date(2026, 10, 23, 18))).toBe(2);
+  });
+});
+
+describe("objections", () => {
+  test("every first answer goes back to the calendar, and none quote a price", () => {
+    for (const o of OBJECTIONS.filter((x) => x.key !== "objection.bad-time")) {
+      for (const line of o.body.split("\n")) expect(line.trim(), o.title).toMatch(/What's your calendar like \{day1\} or \{day2\}\?$/);
+      expect(o.body, o.title).not.toMatch(/\$\d/);
+    }
+  });
+
+  test("no rebuttal asks permission for time", () => {
+    for (const o of OBJECTIONS) for (const t of [o.body, o.body2 ?? ""]) expect(t).not.toMatch(/30 seconds|can I take|would you be open/i);
   });
 });

@@ -46,7 +46,7 @@ describe("message text", () => {
     expect(emailDraft(p({ business: "No Name Co" }), undefined, now).subject).toBe("No Name Co | Standing out online");
     expect(d.body).toMatch(/^Good morning Harvey,/);
     expect(d.body).toContain("Beyond Belief Web Design here in Monroe, where I work with local businesses a lot like yours");
-    expect(d.body).toContain("show you what a homepage redesign could look like for Harvey's Plumbing, and walk through how it can bring you more business");
+    expect(d.body).toContain("I'm looking to set time to briefly introduce myself, show you what a homepage redesign could look like for Harvey's Plumbing, and see where I may be able to help you stand out against your competitors and bring in more business. What does your availability look like next week?");
     expect(d.body).toContain("What does your availability look like next week?");
     expect(d.body).toContain("P.S.");
     expect(d.body).not.toContain("I also sent you");
@@ -69,7 +69,7 @@ describe("message text", () => {
     expect(emailFollowUp(a, 1, undefined, now)).toContain("- More calls from the homepage:");
     expect(emailFollowUp(b, 1, undefined, now)).toContain("- Calls from a phone:");
     expect(emailFollowUp(b, 1, undefined, now)).not.toContain("More calls from the homepage");
-    expect(emailFollowUp(a, 2, undefined, now)).toBe("Hi Harvey,\n\nPlease let me know your thoughts on a quick walkthrough when you have a moment.\n\nThanks,\nChris Nervegna\nBeyond Belief Web Design\n(980) 290-7034\n5107 Whisper Ridge Lane, Monroe, NC 28110");
+    expect(emailFollowUp(a, 2, undefined, now)).toBe("Hi Harvey,\n\nPlease let me know your thoughts on this when you have a moment.\n\nThanks,\nChris Nervegna\nBeyond Belief Web Design\n(980) 290-7034\n5107 Whisper Ridge Lane, Monroe, NC 28110");
     expect(emailFollowUp(a, 3, undefined, now)).toContain("or would January be better?");
     for (const step of [1, 2, 3] as const) expect(emailFollowUp(b, step, undefined, now)).not.toMatch(/[—–]/);
 

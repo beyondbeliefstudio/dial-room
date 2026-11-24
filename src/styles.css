@@ -226,9 +226,9 @@ input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--lime); p
 .seg-btn.is-on { background: var(--text); color: var(--bg); border-color: var(--text); }
 .seg-btn em { font-style: normal; font-weight: 700; color: var(--lime-ink); background: var(--lime); border-radius: 999px; padding: 0 6px; font-size: 11px; margin-left: 4px; }
 .script-why { padding-top: 8px; }
-.script { display: grid; gap: 10px; padding-top: 12px; padding-bottom: 14px; overflow-y: auto; }
+.script { display: grid; gap: 8px; padding-top: 10px; padding-bottom: 12px; overflow-y: auto; }
 .script-panel > .script { overflow-y: auto; }
-.script-say { font-size: 19px; line-height: 1.5; color: var(--text); }
+.script-say { font-size: 18px; line-height: 1.5; color: var(--text); }
 .script-cue { font-size: 13px; color: var(--dim); font-style: italic; }
 .script-branch { display: grid; gap: 6px; padding: 12px 14px; border-radius: var(--radius-sm); background: var(--bg-2); border: 1px dashed var(--line-2); }
 .script-branch p { font-size: 16px; line-height: 1.55; }
@@ -244,11 +244,11 @@ input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--lime); p
 .obj-dock-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
 .obj-dock-title { font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--lime); }
 .obj-dock-head .link-btn { margin-left: auto; }
-.obj-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 8px; }
+.obj-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(106px, 1fr)); gap: 8px; }
 .obj-tile {
   font: inherit; font-size: 16px; font-weight: 700; line-height: 1.2; text-align: left; color: var(--text);
   background: var(--panel); border: 1px solid var(--line-2); border-radius: var(--radius-sm);
-  min-height: 50px; padding: 8px 22px 8px 12px; cursor: pointer; display: flex; align-items: center; position: relative;
+  min-height: 46px; padding: 7px 20px 7px 11px; cursor: pointer; display: flex; align-items: center; position: relative;
   transition: border-color .12s, background .12s, transform .08s;
 }
 .obj-tile:hover { border-color: var(--lime); }
@@ -266,6 +266,7 @@ input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--lime); p
 .rb-block.is-second { padding-top: 16px; border-top: 1px dashed var(--line-2); }
 .rb-block.is-second .rb-label { color: var(--mint); }
 .rb-block.is-second .rb-say { font-size: 19px; }
+.rb-back { font-size: 15px; font-weight: 600; color: var(--muted); margin: 0; }
 .rb-note { font-size: 14px; color: var(--dim); font-style: italic; margin: 0; }
 
 .action-bar {

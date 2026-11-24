@@ -526,6 +526,9 @@ function Rebuttal({ obj, p, onClose }: { obj: ScriptDef; p: Doc<"prospects">; on
           <p className="rb-say pre-line">
             <Segs segs={objectionSegs(obj.body2, p)} />
           </p>
+          <p className="rb-back">
+            <Segs segs={objectionSegs("Then back to the meeting: \"What's your calendar like {day1} or {day2}?\"", p)} />
+          </p>
         </div>
       )}
       {obj.note && (
