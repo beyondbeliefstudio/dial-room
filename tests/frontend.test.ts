@@ -57,7 +57,7 @@ describe("scripts", () => {
     const opener = buildScript("cold", prospect(), new Date(2026, 10, 23, 9))
       .map((l) => ("segs" in l ? l.segs.map((s) => s.text).join("") : l.text))
       .join("\n");
-    expect(opener).toContain("I help local businesses like yours get more calls from Google and AI search engines like ChatGPT and Gemini.");
+    expect(opener).toContain("I help local businesses like yours get more calls from Google and AI search engines");
     expect(opener).not.toContain(v.trade!);
   });
 
@@ -73,7 +73,7 @@ describe("scripts", () => {
         .join("\n");
     for (const id of ["followup", "cold"] as const) {
       expect(text(id)).toContain(
-        "I know I'm calling you out of the blue. I'm just trying to find some time to show you what a homepage redesign could look like for Harvey's Plumbing, and how it could bring in more business. Does tomorrow or later this week work best for you?",
+        "I know I'm calling you out of the blue. I'm just trying to find some time to show you what a homepage redesign could look like for Harvey's Plumbing, and how it could bring in more business and help you stand out against your competitors. Does tomorrow or later this week work best for you?",
       );
     }
   });
@@ -133,7 +133,7 @@ describe("editable scripts", () => {
     expect(lib.list("facebook").map((x) => x.key)).toEqual(["facebook.first", "facebook.followup"]);
     const custom = makeLibrary([{ key: "custom.objection.x", category: "objection", title: "Bad experience", body: "Hmm", order: 9, custom: true }]);
     expect(custom.list("objection").map((o) => o.title).at(-1)).toBe("Bad experience");
-    expect(custom.list("objection")).toHaveLength(12);
+    expect(custom.list("objection")).toHaveLength(13);
   });
 });
 

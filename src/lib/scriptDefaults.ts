@@ -36,12 +36,12 @@ export const DEFAULT_SCRIPTS: ScriptDef[] = [
 
 (Downward inflection. Wait for their answer.)
 
-{if:site} Good! I'm a web designer {monroe}, and I reached out by {channel} {since} about {business}. I help local businesses like yours get more calls from Google and AI search engines like ChatGPT and Gemini. I'm not your typical agency that builds a site and hands it off. It's more of a partnership: I handle everything, so you never really have to worry about your website again. I had a few ideas for how to redesign your homepage so you show up better in those places.
-{if:!site} Good! I'm a web designer {monroe}, and I reached out by {channel} {since} about {business}. I help local businesses like yours get more calls from Google and AI search engines like ChatGPT and Gemini. I'm not your typical agency that builds a site and hands it off. It's more of a partnership: I handle everything, so you never really have to worry about your website again. I had a few ideas for a homepage that gets you showing up in those places.
+{if:site} Good! I'm a web designer {monroe}, and I reached out by {channel} {since}. I help local businesses like yours get more calls from Google and AI search engines, and I had a few ideas for redesigning your homepage.
+{if:!site} Good! I'm a web designer {monroe}, and I reached out by {channel} {since}. I help local businesses like yours get more calls from Google and AI search engines, and I had a few ideas for a homepage for {business}.
 
 (Pause a beat. Let it land.)
 
-I know I'm calling you out of the blue. I'm just trying to find some time to show you {homepage}, and how it could bring in more business. Does {window} work best for you?`,
+I know I'm calling you out of the blue. I'm just trying to find some time to show you {homepage}, and how it could bring in more business and help you stand out against your competitors. Does {window} work best for you?`,
   },
   {
     key: "call.cold",
@@ -53,12 +53,12 @@ I know I'm calling you out of the blue. I'm just trying to find some time to sho
 
 (Downward inflection. Wait for their answer.)
 
-{if:site} Good! I'm a web designer {monroe}, and I help local businesses like yours get more calls from Google and AI search engines like ChatGPT and Gemini. I'm not your typical agency that builds a site and hands it off. It's more of a partnership: I handle everything, so you never really have to worry about your website again. I had a few ideas for how to redesign your homepage so {business} shows up better in those places and gets more calls.
-{if:!site} Good! I'm a web designer {monroe}, and I help local businesses like yours get more calls from Google and AI search engines like ChatGPT and Gemini. I'm not your typical agency that builds a site and hands it off. It's more of a partnership: I handle everything, so you never really have to worry about your website again. I had a few ideas for a homepage that gets {business} showing up in those places and getting more calls.
+{if:site} Good! I'm a web designer {monroe}, and I help local businesses like yours get more calls from Google and AI search engines. I had a few ideas for redesigning your homepage.
+{if:!site} Good! I'm a web designer {monroe}, and I help local businesses like yours get more calls from Google and AI search engines. I had a few ideas for a homepage for {business}.
 
 (Pause a beat. Let it land.)
 
-I know I'm calling you out of the blue. I'm just trying to find some time to show you {homepage}, and how it could bring in more business. Does {window} work best for you?`,
+I know I'm calling you out of the blue. I'm just trying to find some time to show you {homepage}, and how it could bring in more business and help you stand out against your competitors. Does {window} work best for you?`,
   },
   {
     key: "call.frontdesk",
@@ -100,6 +100,16 @@ Perfect, that helps a lot. I'll work that in and talk to you {when}.
   },
 
   // ---------- Objections ----------
+  {
+    key: "objection.who-is-this",
+    category: "objection",
+    order: -1,
+    title: "Who is this?",
+    body: `{if:contacted} It's Chris, with Beyond Belief Web Design {monroeShort}. I reached out by {channel} {since} about {business}, so I figured I'd put a voice to it. I'm a web designer, and I help local businesses like yours get more calls from Google and AI search like ChatGPT. I had a few ideas for your homepage. Can I take 30 seconds to tell you what they are?
+{if:!contacted} It's Chris, with Beyond Belief Web Design {monroeShort}. We haven't talked before, so I'll be honest with you, this is a cold call. I'm a web designer, and I help local businesses like yours get more calls from Google and AI search like ChatGPT. I had a few ideas for your homepage. Can I take 30 seconds to tell you why I'm calling, and you tell me if it's worth another minute?`,
+    body2: "Totally fair question. I found {business} on Google, and I only reach out to a handful of local businesses I think I can actually help. I'm not trying to sell you anything over the phone. I just want to find 15 minutes to show you {homepage}, and how it could bring in more business and help you stand out against your competitors. Does {window} work best for you?",
+    note: "Usually they just didn't catch your name, so they're not annoyed. Say it slower and warmer than the first time, own that it's a cold call, and don't apologize for calling. If they ask how you got their number, it's the ACE side: you found them on Google.",
+  },
   {
     key: "objection.bad-time",
     category: "objection",
@@ -315,7 +325,7 @@ Thanks,
     title: "Outreach playbook",
     note: "How every channel works. Read before editing the scripts.",
     body: `THE GOAL
-Every call, email, and Facebook message asks for one thing: "Why don't we hop on a call, and let me show you a homepage redesign: what that could look like for your business, and how it could bring you more business?" Never say it's already built. Build it after they say yes, before the meeting.
+Every call, email, and Facebook message asks for one thing: "Why don't we hop on a call, and let me show you a homepage redesign: what that could look like for your business, how it could bring you more business, and how it helps you stand out against your competitors?" Never say it's already built. Build it after they say yes, before the meeting.
 
 WHAT MAKES YOU DIFFERENT (use one or two, never the whole list)
 A partnership, not a hand-off: you handle the site for them, so they never have to worry about it again.
