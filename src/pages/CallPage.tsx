@@ -542,6 +542,7 @@ function Rebuttal({ obj, p, onClose }: { obj: ScriptDef; p: Doc<"prospects">; on
 }
 
 function whyScript(p: Doc<"prospects">, id: ScriptId): string {
+  if (id === "quick") return "For when they pick up busy or mid-job.";
   if (id === "followup") return hasPriorTouch(p) ? "They already got a message from you." : "Follow-up script picked by hand.";
   return hasPriorTouch(p) ? "Cold script picked by hand." : "No earlier message from you.";
 }

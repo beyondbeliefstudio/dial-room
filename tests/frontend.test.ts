@@ -51,27 +51,30 @@ describe("scripts", () => {
 
   test("no script claims you already work with their trade in their county", () => {
     for (const s of DEFAULT_SCRIPTS) {
-      for (const t of [s.body, s.body2 ?? "", s.subject ?? ""]) expect(t).not.toContain("{trade}");
+      for (const t of [s.body, s.body2 ?? "", s.subject ?? ""]) {
+        // Naming their trade is fine ("comparing three or four roofers"); claiming you work with it isn't
+        expect(t).not.toMatch(/(work|working|specialize|partner) with (local )?\{trade\}|\{trade\} (in|across) \{(county|area|town)\}/i);
+      }
     }
     const v = scriptVars(prospect(), new Date(2026, 10, 23, 9));
     const opener = buildScript("cold", prospect(), new Date(2026, 10, 23, 9))
       .map((l) => ("segs" in l ? l.segs.map((s) => s.text).join("") : l.text))
       .join("\n");
-    expect(opener).toContain("I'm reaching out because I'm a web designer right here in Monroe that works with local businesses like yours");
-    expect(opener).not.toContain(v.trade!);
+    expect(opener).toContain("Hey [Name], this is Chris calling from Beyond Belief Web Design, how's it going?");
+    expect(opener).toContain("Good! I'm reaching out because I'm a web designer right here in Monroe that works with local businesses like yours across the Charlotte area.");
+    expect(opener).toContain(`when someone's comparing three or four ${v.trade} online`);
   });
 
-  test("call openers follow Connor's Who, Why, What: design-first, assumptive, no permission asks", () => {
+  test("call openers: who, why, what in about 20 seconds, design-first, two mornings, no permission asks", () => {
     for (const id of ["cold", "followup"] as const) {
       for (const p of [prospect(), prospect({ website: "", builtWith: "No website" })]) {
         const text = buildScript(id, p, new Date(2026, 10, 23, 9))
           .map((l) => ("segs" in l ? l.segs.map((s) => s.text).join("") : l.text))
           .join("\n");
-        expect(text).toContain("this is Chris calling from Beyond Belief Web Design, how's it going?");
-        expect(text).toContain("Good! I'm reaching out because");
-        expect(text).toContain("look like the most trusted name in their area, never have to worry about their website");
-        expect(text).toContain("so I was actually more looking to set some time aside, just to show you");
-        expect(text).toMatch(/What's your calendar like [^?]+\?$/);
+        expect(text).toContain("I'm a web designer right here in Monroe");
+        expect(text).toContain("Quick reason I'm calling: when someone's comparing three or four plumbing companies online, they almost always call the one that looks the most trustworthy.");
+        expect(text).toContain("Sites that make local businesses look like the obvious pick.");
+        expect(text).toMatch(/Fifteen minutes, nothing to prep\. Does \w+ or \w+ morning work better\?$/);
         expect(text).not.toMatch(/Google|ChatGPT|Gemini|AI search|rank/);
         expect(text).not.toMatch(/30 seconds|can I take|would you be open|bad time|is that okay|if that's alright/i);
       }
@@ -90,7 +93,7 @@ describe("scripts", () => {
         .join("\n");
     for (const id of ["followup", "cold"] as const) {
       expect(text(id)).toContain(
-        "And I know I kind of called you out of the blue here too, so I was actually more looking to set some time aside, just to show you what a homepage redesign could look like for Harvey's Plumbing, and how it could bring in more business and help you stand out against your competitors. What's your calendar like tomorrow or Wednesday?",
+        "I'd love to show you what that could look like for Harvey's Plumbing. Fifteen minutes, nothing to prep. Does tomorrow or Wednesday morning work better?",
       );
     }
   });
@@ -105,7 +108,7 @@ describe("scripts", () => {
     expect(v.since).toBe("last week"); // 8 days before Nov 25
     expect(v.monroe).toBe("right here in Monroe");
     expect(v.trade).toBe("plumbing companies");
-    for (const id of ["followup", "cold"] as const) {
+    for (const id of ["followup", "cold", "quick"] as const) {
       const lines = buildScript(id, prospect(), wed);
       const missing = lines.flatMap((l) => ("segs" in l ? l.segs.filter((s) => s.missing).map((s) => s.text) : []));
       // Both scripts open with the owner's name (flagged until known)
@@ -113,7 +116,7 @@ describe("scripts", () => {
     }
     const named = buildScript("followup", prospect({ ownerName: "Harvey Smith" }), wed);
     expect(named[0].kind === "say" && named[0].segs.map((s) => s.text).join("")).toBe(
-      "Hey Harvey, this is Chris calling from Beyond Belief Web Design, how's it going?",
+      "Hey Harvey, it's Chris. I sent you an email last week. I'm a web designer right here in Monroe.",
     );
     for (const o of OBJECTIONS) {
       for (const t of [o.body, o.body2 ?? "", o.note ?? ""]) expect(fill(t, v).some((s) => s.missing)).toBe(false);
@@ -150,7 +153,7 @@ describe("editable scripts", () => {
     expect(lib.list("facebook").map((x) => x.key)).toEqual(["facebook.first", "facebook.followup"]);
     const custom = makeLibrary([{ key: "custom.objection.x", category: "objection", title: "Bad experience", body: "Hmm", order: 9, custom: true }]);
     expect(custom.list("objection").map((o) => o.title).at(-1)).toBe("Bad experience");
-    expect(custom.list("objection")).toHaveLength(15);
+    expect(custom.list("objection")).toHaveLength(16);
   });
 });
 
@@ -205,5 +208,17 @@ describe("objections", () => {
 
   test("no rebuttal asks permission for time", () => {
     for (const o of OBJECTIONS) for (const t of [o.body, o.body2 ?? ""]) expect(t).not.toMatch(/30 seconds|can I take|would you be open/i);
+  });
+});
+
+describe("spoken business names", () => {
+  test("drops legal suffixes and asides you wouldn't say out loud", async () => {
+    const { spokenBusiness } = await import("../src/lib/templates");
+    expect(spokenBusiness("McToolman Services LLC")).toBe("McToolman Services");
+    expect(spokenBusiness("J.R. Morgan Tree Service, LLC")).toBe("J.R. Morgan Tree Service");
+    expect(spokenBusiness("Mel's Tree Care (formerly Mandi's Tree Care)")).toBe("Mel's Tree Care");
+    expect(spokenBusiness("Southlands Fence - Charlotte, NC")).toBe("Southlands Fence");
+    expect(spokenBusiness("Boatwright Electric Co")).toBe("Boatwright Electric");
+    expect(spokenBusiness("Harvey's Plumbing")).toBe("Harvey's Plumbing");
   });
 });

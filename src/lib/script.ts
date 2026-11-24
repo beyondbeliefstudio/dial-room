@@ -8,11 +8,12 @@ export type { Line, Seg };
 
 type P = Doc<"prospects">;
 
-export type ScriptId = "followup" | "cold";
+export type ScriptId = "followup" | "cold" | "quick";
 
 export const SCRIPT_LABELS: Record<ScriptId, { short: string; title: string; ends: string }> = {
   followup: { short: "1 · Follow-up", title: "Follow-up call", ends: "Ends in a meeting ask" },
   cold: { short: "2 · Cold", title: "Cold call", ends: "Ends in a meeting ask" },
+  quick: { short: "3 · Quick", title: "Quick pitch for when they're busy", ends: "One breath, then the ask" },
 };
 
 export function autoScript(p: P): ScriptId {

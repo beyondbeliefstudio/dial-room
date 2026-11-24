@@ -25,6 +25,8 @@ export const PLACEHOLDERS: { name: string; means: string }[] = [
   { name: "name", means: "Owner's first name (shows [Name] on call scripts when unknown)" },
   { name: "owner", means: "Owner's full name, or \"the owner\"" },
   { name: "business", means: "Business name" },
+  { name: "businessShort", means: "Business name the way you'd say it (no LLC, Inc, or \"(formerly ...)\")" },
+  { name: "sentNote", means: "What you sent them: \"an email\", \"a message on Facebook\", \"a text\"" },
   { name: "trade", means: "Their trade, plural (\"plumbing companies\")" },
   { name: "tradeOne", means: "Their trade, singular (\"plumbing company\")" },
   { name: "town", means: "Their town" },
@@ -127,6 +129,20 @@ export function hasNoWebsite(p: P): boolean {
   return p.builtWith.toLowerCase().includes("no website") || !p.website.trim();
 }
 
+/** The business name the way you'd say it out loud: no LLC/Inc/Co, no "(formerly ...)" or " - Charlotte, NC". */
+export function spokenBusiness(name: string): string {
+  let t = name.replace(/\s*\(.*?\)\s*/g, " ").replace(/\s+[-|]\s+.*$/, "").trim();
+  t = t.replace(/[,\s]+(L\.?L\.?C\.?|Inc\.?|Co\.?|Corp\.?|Ltd\.?)$/i, "").trim();
+  return t || name.trim();
+}
+
+function sentNoteWords(channel: string): string {
+  if (channel === "Facebook") return "a message on Facebook";
+  if (channel === "Instagram") return "a message on Instagram";
+  if (channel === "text") return "a text";
+  return "an email";
+}
+
 function channelWord(p: P): string {
   const c = `${p.firstChannel} ${p.sheetStatus}`.toLowerCase();
   if (c.includes("facebook")) return "Facebook";
@@ -165,6 +181,7 @@ export function buildVars(p: P, now = new Date(), extra: Vars = {}): { vars: Var
     name,
     owner: p.ownerName.trim() || "the owner",
     business: p.business,
+    businessShort: spokenBusiness(p.business),
     trade: tradeWords(p.industry),
     tradeOne: tradeOne(p.industry),
     town: p.town || p.county || "town",
@@ -175,6 +192,7 @@ export function buildVars(p: P, now = new Date(), extra: Vars = {}): { vars: Var
     where: union ? "here in Monroe" : "over in Monroe",
     greeting: now.getHours() < 12 ? "good morning" : "good afternoon",
     channel: channelWord(p),
+    sentNote: sentNoteWords(channelWord(p)),
     since: sinceWords(p.dateSent, now),
     day1,
     day2,

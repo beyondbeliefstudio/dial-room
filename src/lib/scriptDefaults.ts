@@ -32,36 +32,40 @@ export const DEFAULT_SCRIPTS: ScriptDef[] = [
     category: "call",
     order: 1,
     title: "Script 1 · Follow-up call",
-    note: "Connor's Who, Why, What. They already got a message from you. Straight from the greeting to why you're calling, then an assumptive ask for time.",
-    body: `Hey {name}, this is Chris calling from Beyond Belief Web Design, how's it going?
+    note: "Who, why, what in about 20 seconds. They already got something from you, so mention it, then straight to the reason and two mornings.",
+    body: `Hey {name}, it's Chris. I sent you {sentNote} {since}. I'm a web designer {monroe}.
 
-(Downward inflection. Wait for their answer.)
-
-Good! I'm reaching out because I sent you a note by {channel} {since}. I'm a web designer {monroe} that works with local businesses like yours across the Charlotte area.
-
-So I focus on things like custom website design and handling the whole website for you, things like that, usually by helping local businesses look like the most trusted name in their area, never have to worry about their website, and bring in more calls.
+Quick reason I'm calling: when someone's comparing three or four {trade} online, they almost always call the one that looks the most trustworthy. That's what I build. Sites that make local businesses look like the obvious pick.
 
 (Pause a beat. Let it land.)
 
-And I know I kind of called you out of the blue here too, so I was actually more looking to set some time aside, just to show you {homepage}, and how it could bring in more business and help you stand out against your competitors. What's your calendar like {day1} or {day2}?`,
+I'd love to show you what that could look like for {businessShort}. Fifteen minutes, nothing to prep. Does {day1} or {day2} morning work better?`,
   },
   {
     key: "call.cold",
     category: "call",
     order: 2,
     title: "Script 2 · Cold call",
-    note: "Connor's Who, Why, What. No earlier message. Straight from the greeting to why you're calling, then an assumptive ask for time.",
+    note: "Greeting, then who, why, what. No earlier message, so say the company name and let them answer \"how's it going\" before the pitch.",
     body: `Hey {name}, this is Chris calling from Beyond Belief Web Design, how's it going?
 
 (Downward inflection. Wait for their answer.)
 
 Good! I'm reaching out because I'm a web designer {monroe} that works with local businesses like yours across the Charlotte area.
 
-So I focus on things like custom website design and handling the whole website for you, things like that, usually by helping local businesses look like the most trusted name in their area, never have to worry about their website, and bring in more calls.
+Quick reason I'm calling: when someone's comparing three or four {trade} online, they almost always call the one that looks the most trustworthy. That's what I build. Sites that make local businesses look like the obvious pick.
 
 (Pause a beat. Let it land.)
 
-And I know I kind of called you out of the blue here too, so I was actually more looking to set some time aside, just to show you {homepage}, and how it could bring in more business and help you stand out against your competitors. What's your calendar like {day1} or {day2}?`,
+I'd love to show you what that could look like for {businessShort}. Fifteen minutes, nothing to prep. Does {day1} or {day2} morning work better?`,
+  },
+  {
+    key: "call.quick",
+    category: "call",
+    order: 2.5,
+    title: "Script 3 · Quick pitch",
+    note: "For when they pick up busy or mid-job. One breath, then stop talking.",
+    body: `Hey {name}, Chris, local web designer {monroeShort}. I build sites that make businesses look like the obvious pick when people are comparing {trade}. Can I grab 15 minutes {day1} or {day2} to show you an idea for {businessShort}?`,
   },
   {
     key: "call.frontdesk",
@@ -109,8 +113,8 @@ Perfect, that helps a lot. I'll work that in and talk to you {when}.
     short: "Who is this?",
     order: -1,
     title: "Who is this?",
-    body: `{if:contacted} It's Chris, with Beyond Belief Web Design {monroeShort}. I sent you a note by {channel} {since}. I'm a web designer, and I work with local businesses like yours on custom websites and handling the whole site for them, so they look like the most trusted name in their area. I was actually looking to set some time aside to show you {homepage}. What's your calendar like {day1} or {day2}?
-{if:!contacted} It's Chris, with Beyond Belief Web Design {monroeShort}. I'm a web designer, and I work with local businesses like yours on custom websites and handling the whole site for them, so they look like the most trusted name in their area. I was actually looking to set some time aside to show you {homepage}. What's your calendar like {day1} or {day2}?`,
+    body: `{if:contacted} It's Chris, local web designer {monroeShort}. I sent you {sentNote} {since}. I build sites that make local businesses look like the obvious pick when people are comparing {trade}. I'd love to show you what that could look like for {businessShort}. What's your calendar like {day1} or {day2}?
+{if:!contacted} It's Chris, with Beyond Belief Web Design, a local web designer {monroeShort}. I build sites that make local businesses look like the obvious pick when people are comparing {trade}. I'd love to show you what that could look like for {businessShort}. What's your calendar like {day1} or {day2}?`,
     body2: "Totally fair question. I found {business} on Google, and I only reach out to a handful of local businesses I think I can actually help. I'm not trying to sell you anything over the phone. I was more looking to set 15 minutes aside to show you {homepage}, and how it could bring in more business and help you stand out against your competitors. What's your calendar like {day1} or {day2}?",
     note: "Usually they just didn't catch your name, so they're not annoyed. Say it slower and warmer than the first time, run Who, Why, What again in short, and end on the calendar. No apologizing, no asking for 30 seconds. If they ask how you got their number, it's the ACE side: you found them on Google.",
   },
@@ -180,6 +184,16 @@ Perfect, that helps a lot. I'll work that in and talk to you {when}.
     title: "Slammed right now",
     body: "Totally get it, sounds like business is good. Honestly, that's what I hear from most owners: they know the website needs work, they just don't have the time for it. That's the whole idea, I handle all of it. It's 15 minutes with no prep on your end, before your day starts or after you wrap up. What's your calendar like {day1} or {day2}?",
     body2: "Is it busy right now because of the season, or is that pretty much year-round for you? I only ask because if you've got a slower stretch coming, that's usually the best time to get a new site live so it's already working when things pick back up.",
+  },
+  {
+    key: "objection.plenty-of-work",
+    category: "objection",
+    short: "Plenty of work",
+    order: 4.5,
+    title: "We're already busy / We have plenty of customers",
+    body: "That's great, sounds like business is good. Quick question though: are the customers you have now the ones you actually want? Like the high-paying jobs, or a lot of smaller jobs filling up your calendar that you'd rather not be doing? If there's a higher-ticket service you'd like to sell more of, that's exactly what I'd build the homepage around. It's 15 minutes, nothing to prep. What's your calendar like {day1} or {day2}?",
+    body2: "Totally fair. If you could fill next month with one kind of job, what would it be? The reason I ask is most busy owners I talk to don't need more calls, they need better ones, and the homepage can lead with exactly that service so the right customers pick you.",
+    note: "Don't argue that they need more work. Make it about the right work: bigger jobs, better customers, the service they'd rather sell.",
   },
   {
     key: "objection.cost",
@@ -377,12 +391,12 @@ A personal partnership: they deal with you directly, not an account manager or a
 They know the site needs work but don't have the time: that's the point, you handle all of it.
 They see the homepage before committing to anything.
 
-THE FRAMEWORK: CONNOR'S WHO, WHY, WHAT (every call follows it)
-Greeting: "Hey [Name], this is Chris calling from Beyond Belief Web Design, how's it going?" Downward inflection, then straight into why you're calling.
-Who: "I'm reaching out because I'm a web designer in Monroe that works with local businesses like yours." One sentence.
-Why: "So I focus on things like..., things like that, usually by helping..." What they care about: looking like the most trusted name in their area, standing out from competitors, and never having to deal with their website.
-What: assumptive. "And I know I kind of called you out of the blue here too, so I was actually more looking to set some time aside, just to show you... What's your calendar like tomorrow or Wednesday?" Always two real days.
-Never ask permission ("Can I take 30 seconds?", "Did I catch you at a bad time?", "Would you be open to"). Assume the meeting, and let them decline.
+THE FRAMEWORK: WHO, WHY, WHAT (about 20 seconds, every call)
+Who: "Hey [Name], it's Chris. I sent you an email last week. I'm a web designer right here in Monroe." Cold: "Hey [Name], this is Chris calling from Beyond Belief Web Design, how's it going?" Wait, then "Good! I'm reaching out because I'm a web designer right here in Monroe that works with local businesses like yours across the Charlotte area."
+Why: "Quick reason I'm calling: when someone's comparing three or four roofers online, they almost always call the one that looks the most trustworthy. That's what I build." Then pause.
+What: two specific mornings. "Fifteen minutes, nothing to prep. Does Monday or Tuesday morning work better?"
+Busy or mid-job: Script 3, one breath. "Chris, local web designer here in Monroe. I build sites that make businesses look like the obvious pick when people are comparing roofers. Can I grab 15 minutes Monday or Tuesday to show you an idea for McToolman?"
+Never ask for 30 seconds or whether it's a bad time. Always name two days, and let them decline.
 
 THE ABAB CADENCE
 Every prospect alternates writing and calling, one business day apart:

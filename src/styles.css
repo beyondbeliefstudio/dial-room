@@ -215,7 +215,7 @@ input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--lime); p
 .ptab:hover { color: var(--text); }
 .ptab.is-active { color: var(--text); border-bottom-color: var(--lime); }
 .script-panel > :not(.panel-tabs) { padding-left: 24px; padding-right: 24px; }
-.script-picker { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; padding-top: 12px; }
+.script-picker { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; padding-top: 10px; }
 .script-picker .script-why { padding: 0 0 0 6px; }
 .seg-row { display: flex; flex-wrap: wrap; gap: 6px; }
 .seg-btn {
@@ -226,7 +226,7 @@ input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--lime); p
 .seg-btn.is-on { background: var(--text); color: var(--bg); border-color: var(--text); }
 .seg-btn em { font-style: normal; font-weight: 700; color: var(--lime-ink); background: var(--lime); border-radius: 999px; padding: 0 6px; font-size: 11px; margin-left: 4px; }
 .script-why { padding-top: 8px; }
-.script { display: grid; gap: 8px; padding-top: 10px; padding-bottom: 12px; overflow-y: auto; }
+.script { display: grid; gap: 6px; padding-top: 8px; padding-bottom: 8px; overflow-y: auto; }
 .script-panel > .script { overflow-y: auto; }
 .script-say { font-size: 18px; line-height: 1.5; color: var(--text); }
 .script-cue { font-size: 13px; color: var(--dim); font-style: italic; }
@@ -240,7 +240,7 @@ input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--lime); p
 .script-area { flex: 1; min-height: 0; overflow-y: auto; }
 .script-area .script { overflow: visible; }
 
-.obj-dock { flex-shrink: 0; border-top: 1px solid var(--line); background: var(--bg-2); padding-top: 10px; padding-bottom: 14px; display: grid; gap: 8px; }
+.obj-dock { flex-shrink: 0; border-top: 1px solid var(--line); background: var(--bg-2); padding-top: 8px; padding-bottom: 10px; display: grid; gap: 6px; }
 .obj-dock-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
 .obj-dock-title { font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--lime); }
 .obj-dock-head .link-btn { margin-left: auto; }
