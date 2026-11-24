@@ -40,6 +40,7 @@ export const PLACEHOLDERS: { name: string; means: string }[] = [
   { name: "day2", means: "The business day after that" },
   { name: "day1Ask", means: "\"tomorrow afternoon\" or \"Monday afternoon\"" },
   { name: "window", means: "\"tomorrow or later this week\", or \"Monday or later in the week\" from a Friday" },
+  { name: "angle", means: "One thing from your research (\"Your angle\" on the prospect), for the \"What's wrong with my site?\" rebuttal" },
   { name: "priority", means: "What their kind of business cares about most" },
   { name: "outcomes", means: "The outcomes you help their kind of business with" },
   { name: "rating", means: "Google rating" },
@@ -146,6 +147,12 @@ export function laterMonthWords(now = new Date()): string {
   return addDays(startOfDay(now), 45).toLocaleDateString("en-US", { month: "long" });
 }
 
+/** The research note, cleaned up to read inside a sentence (no trailing period). */
+function angleWords(note: string | undefined): string | null {
+  const t = (note ?? "").trim().replace(/\s+/g, " ").replace(/[.\s]+$/, "");
+  return t || null;
+}
+
 export function buildVars(p: P, now = new Date(), extra: Vars = {}): { vars: Vars; flags: Flags } {
   const [d1, d2] = nextBusinessDays(now, 2);
   const day1 = dayWord(d1, now);
@@ -173,6 +180,7 @@ export function buildVars(p: P, now = new Date(), extra: Vars = {}): { vars: Var
     day2,
     day1Ask: day1 === "tomorrow" ? "tomorrow afternoon" : `${day1} afternoon`,
     window: day1 === "tomorrow" ? "tomorrow or later this week" : d1.getDay() > now.getDay() ? `${day1} or later this week` : `${day1} or later in the week`,
+    angle: angleWords(p.whatToMention),
     priority: lines.priority,
     outcomes: lines.outcomes,
     rating: p.googleRating || null,
@@ -224,7 +232,7 @@ export function paragraphs(text: string, flags: Flags): string[] {
   return out;
 }
 
-const MISSING_LABEL: Record<string, string> = { name: "[Name]" };
+const MISSING_LABEL: Record<string, string> = { name: "[Name]", angle: "[one specific thing you noticed on their site]" };
 
 export function fill(template: string, vars: Vars): Seg[] {
   const out: Seg[] = [];

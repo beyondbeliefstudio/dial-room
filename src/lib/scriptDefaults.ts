@@ -135,6 +135,16 @@ Perfect, that helps a lot. I'll work that in and talk to you {when}.
     note: "Lean on being local. Offer to come by in person when they're close enough to drive to; for far counties, keep it to a screen share.",
   },
   {
+    key: "objection.whats-wrong",
+    category: "objection",
+    short: "What's wrong with it?",
+    order: 0.7,
+    title: "What's wrong with my website? / Name one thing",
+    body: "Fair question. One thing that jumped out when I looked: {angle}. But honestly, that's not really why I'm calling. Even with that fixed, I don't think your site is the most trusted, best-looking one in your market yet, not next to your competitors. That's what I'd build for you, and it's a lot easier to show you than list it all over the phone. What's your calendar like {day1} or {day2}?",
+    body2: "Totally fair. When you pull up your site next to your competitors', which one would you call first? The reason I ask is that's really the test. Most people call whoever looks the most established and trustworthy, and that's exactly what I'd show you on the homepage.",
+    note: "The highlighted part is your research from \"Your angle\" on the left. Say it in your own words, one thing only, and don't critique the whole site: the rest is for the meeting. Then pivot: this isn't about fixing problems, it's about being the most trusted, best-looking site in their market.",
+  },
+  {
     key: "objection.send",
     category: "objection",
     short: "Just send it",

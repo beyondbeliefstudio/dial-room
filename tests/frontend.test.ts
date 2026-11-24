@@ -150,7 +150,7 @@ describe("editable scripts", () => {
     expect(lib.list("facebook").map((x) => x.key)).toEqual(["facebook.first", "facebook.followup"]);
     const custom = makeLibrary([{ key: "custom.objection.x", category: "objection", title: "Bad experience", body: "Hmm", order: 9, custom: true }]);
     expect(custom.list("objection").map((o) => o.title).at(-1)).toBe("Bad experience");
-    expect(custom.list("objection")).toHaveLength(14);
+    expect(custom.list("objection")).toHaveLength(15);
   });
 });
 
