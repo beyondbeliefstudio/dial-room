@@ -244,7 +244,7 @@ input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--lime); p
 .obj-dock-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
 .obj-dock-title { font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--lime); }
 .obj-dock-head .link-btn { margin-left: auto; }
-.obj-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(106px, 1fr)); gap: 8px; }
+.obj-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(94px, 1fr)); gap: 6px; }
 .obj-tile {
   font: inherit; font-size: 16px; font-weight: 700; line-height: 1.2; text-align: left; color: var(--text);
   background: var(--panel); border: 1px solid var(--line-2); border-radius: var(--radius-sm);

@@ -32,10 +32,15 @@ export const DEFAULT_SCRIPTS: ScriptDef[] = [
     category: "call",
     order: 1,
     title: "Script 1 · Follow-up call",
-    note: "Who, why, what in about 20 seconds. They already got something from you, so mention it, then straight to the reason and two mornings.",
-    body: `Hey {name}, it's Chris. I sent you {sentNote} {since}. I'm a web designer {monroe}.
+    note: "Identical to the cold call except one line: what you already sent them. Greeting, who, the problem and what you fix, then two mornings.",
+    body: `Hey {name}, this is Chris calling from Beyond Belief Web Design, how's it going?
 
-Quick reason I'm calling: when someone's comparing three or four {trade} online, they almost always call the one that looks the most trustworthy. That's what I build. Sites that make local businesses look like the obvious pick.
+(Downward inflection. Wait for their answer.)
+
+Good! I sent you {sentNote} {since}. I'm reaching out because I'm a web designer {monroe} that works with local businesses like yours across the Charlotte area.
+
+{if:site} Most local businesses I talk to have a website that's either outdated or a pain to keep up with. And when someone's comparing three or four {trade} online, they almost always call the one that looks the most trustworthy. That's what I fix. I design a custom site that makes you the obvious pick, and then I handle all of it, so you never have to touch it again.
+{if:!site} Most local businesses I talk to either don't have a website yet, or have one that's a pain to keep up with. And when someone's comparing three or four {trade} online, they almost always call the one that looks the most trustworthy. That's what I fix. I design a custom site that makes you the obvious pick, and then I handle all of it, so you never have to touch it again.
 
 (Pause a beat. Let it land.)
 
@@ -46,14 +51,15 @@ I'd love to show you what that could look like for {businessShort}. Fifteen minu
     category: "call",
     order: 2,
     title: "Script 2 · Cold call",
-    note: "Greeting, then who, why, what. No earlier message, so say the company name and let them answer \"how's it going\" before the pitch.",
+    note: "Identical to the follow-up except it doesn't mention an earlier message. Greeting, who, the problem and what you fix, then two mornings.",
     body: `Hey {name}, this is Chris calling from Beyond Belief Web Design, how's it going?
 
 (Downward inflection. Wait for their answer.)
 
 Good! I'm reaching out because I'm a web designer {monroe} that works with local businesses like yours across the Charlotte area.
 
-Quick reason I'm calling: when someone's comparing three or four {trade} online, they almost always call the one that looks the most trustworthy. That's what I build. Sites that make local businesses look like the obvious pick.
+{if:site} Most local businesses I talk to have a website that's either outdated or a pain to keep up with. And when someone's comparing three or four {trade} online, they almost always call the one that looks the most trustworthy. That's what I fix. I design a custom site that makes you the obvious pick, and then I handle all of it, so you never have to touch it again.
+{if:!site} Most local businesses I talk to either don't have a website yet, or have one that's a pain to keep up with. And when someone's comparing three or four {trade} online, they almost always call the one that looks the most trustworthy. That's what I fix. I design a custom site that makes you the obvious pick, and then I handle all of it, so you never have to touch it again.
 
 (Pause a beat. Let it land.)
 
@@ -131,7 +137,7 @@ Perfect, that helps a lot. I'll work that in and talk to you {when}.
   {
     key: "objection.calls-all-time",
     category: "objection",
-    short: "Get these calls a lot",
+    short: "Get calls a lot",
     order: 0.5,
     title: "We get these calls all the time / Is this a sales call?",
     body: "I bet you do, and most of them are from out of state or overseas. I'm actually {monroe}. I'm not asking you to sign up for anything, I just want to show you {homepage}. If you'd rather not do it over the phone, I can bring my laptop by your shop or wherever you'll be {day1} morning and show you in person. What's your calendar like {day1} or {day2}?",
@@ -141,7 +147,7 @@ Perfect, that helps a lot. I'll work that in and talk to you {when}.
   {
     key: "objection.whats-wrong",
     category: "objection",
-    short: "What's wrong with it?",
+    short: "What's wrong?",
     order: 0.7,
     title: "What's wrong with my website? / Name one thing",
     body: "Fair question. One thing that jumped out when I looked: {angle}. But honestly, that's not really why I'm calling. Even with that fixed, I don't think your site is the most trusted, best-looking one in your market yet, not next to your competitors. That's what I'd build for you, and it's a lot easier to show you than list it all over the phone. What's your calendar like {day1} or {day2}?",
@@ -391,10 +397,11 @@ A personal partnership: they deal with you directly, not an account manager or a
 They know the site needs work but don't have the time: that's the point, you handle all of it.
 They see the homepage before committing to anything.
 
-THE FRAMEWORK: WHO, WHY, WHAT (about 20 seconds, every call)
-Who: "Hey [Name], it's Chris. I sent you an email last week. I'm a web designer right here in Monroe." Cold: "Hey [Name], this is Chris calling from Beyond Belief Web Design, how's it going?" Wait, then "Good! I'm reaching out because I'm a web designer right here in Monroe that works with local businesses like yours across the Charlotte area."
-Why: "Quick reason I'm calling: when someone's comparing three or four roofers online, they almost always call the one that looks the most trustworthy. That's what I build." Then pause.
-What: two specific mornings. "Fifteen minutes, nothing to prep. Does Monday or Tuesday morning work better?"
+THE FRAMEWORK: WHO, WHY, WHAT (about 30 seconds, every call)
+Greeting: "Hey [Name], this is Chris calling from Beyond Belief Web Design, how's it going?" Wait for their answer.
+Who: "Good! I'm reaching out because I'm a web designer right here in Monroe that works with local businesses like yours across the Charlotte area." Follow-ups add one line first: "I sent you an email last week." That's the only difference between the two scripts.
+Why: "Most local businesses I talk to have a website that's either outdated or a pain to keep up with. And when someone's comparing three or four roofers online, they almost always call the one that looks the most trustworthy. That's what I fix. I design a custom site that makes you the obvious pick, and then I handle all of it, so you never have to touch it again." Then pause.
+What: two specific mornings. "I'd love to show you what that could look like for McToolman. Fifteen minutes, nothing to prep. Does Monday or Tuesday morning work better?"
 Busy or mid-job: Script 3, one breath. "Chris, local web designer here in Monroe. I build sites that make businesses look like the obvious pick when people are comparing roofers. Can I grab 15 minutes Monday or Tuesday to show you an idea for McToolman?"
 Never ask for 30 seconds or whether it's a bad time. Always name two days, and let them decline.
 

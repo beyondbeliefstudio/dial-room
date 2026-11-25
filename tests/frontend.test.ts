@@ -65,6 +65,20 @@ describe("scripts", () => {
     expect(opener).toContain(`when someone's comparing three or four ${v.trade} online`);
   });
 
+  test("the follow-up and cold scripts are identical except the line about what you sent", () => {
+    const at = new Date(2026, 10, 23, 9);
+    const say = (id: "followup" | "cold", p: Parameters<typeof buildScript>[1]) =>
+      buildScript(id, p, at).map((l) => ("segs" in l ? l.segs.map((s) => s.text).join("") : l.text));
+    for (const p of [prospect(), prospect({ website: "", builtWith: "No website" })]) {
+      const follow = say("followup", p);
+      const cold = say("cold", p);
+      expect(follow.length).toBe(cold.length);
+      const diff = follow.filter((line, i) => line !== cold[i]);
+      expect(diff).toEqual([follow[2]]);
+      expect(follow[2]).toBe(cold[2].replace("Good! ", `Good! I sent you an email ${scriptVars(p, at).since}. `));
+    }
+  });
+
   test("call openers: who, why, what in about 20 seconds, design-first, two mornings, no permission asks", () => {
     for (const id of ["cold", "followup"] as const) {
       for (const p of [prospect(), prospect({ website: "", builtWith: "No website" })]) {
@@ -72,8 +86,7 @@ describe("scripts", () => {
           .map((l) => ("segs" in l ? l.segs.map((s) => s.text).join("") : l.text))
           .join("\n");
         expect(text).toContain("I'm a web designer right here in Monroe");
-        expect(text).toContain("Quick reason I'm calling: when someone's comparing three or four plumbing companies online, they almost always call the one that looks the most trustworthy.");
-        expect(text).toContain("Sites that make local businesses look like the obvious pick.");
+        expect(text).toContain("And when someone's comparing three or four plumbing companies online, they almost always call the one that looks the most trustworthy. That's what I fix. I design a custom site that makes you the obvious pick, and then I handle all of it, so you never have to touch it again.");
         expect(text).toMatch(/Fifteen minutes, nothing to prep\. Does \w+ or \w+ morning work better\?$/);
         expect(text).not.toMatch(/Google|ChatGPT|Gemini|AI search|rank/);
         expect(text).not.toMatch(/30 seconds|can I take|would you be open|bad time|is that okay|if that's alright/i);
@@ -116,7 +129,7 @@ describe("scripts", () => {
     }
     const named = buildScript("followup", prospect({ ownerName: "Harvey Smith" }), wed);
     expect(named[0].kind === "say" && named[0].segs.map((s) => s.text).join("")).toBe(
-      "Hey Harvey, it's Chris. I sent you an email last week. I'm a web designer right here in Monroe.",
+      "Hey Harvey, this is Chris calling from Beyond Belief Web Design, how's it going?",
     );
     for (const o of OBJECTIONS) {
       for (const t of [o.body, o.body2 ?? "", o.note ?? ""]) expect(fill(t, v).some((s) => s.missing)).toBe(false);
